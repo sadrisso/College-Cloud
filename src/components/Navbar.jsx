@@ -63,13 +63,13 @@ export default function Navbar() {
             >
               About
             </a>
-            <a
-              href="#"
+            <Link
+              href="/login"
               className="text-gray-700 hover:text-blue-500"
               onClick={toggleMenu}
             >
-              Contact
-            </a>
+              Login
+            </Link>
           </div>
         </div>
 
