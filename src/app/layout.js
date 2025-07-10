@@ -11,6 +11,8 @@ import {
   signOut,
 } from "firebase/auth";
 import { auth } from "@/lib/firebase";
+import Footer from "@/components/Footer";
+import SearchBar from "@/components/SearchBar";
 
 export const AuthContext = createContext();
 
@@ -58,7 +60,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]`}
+        className={`p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]`}
       >
         <AuthContext.Provider value={authInfo}>
           <Toaster
@@ -73,8 +75,17 @@ export default function RootLayout({ children }) {
               },
             }}
           />
-          <Navbar />
-          {children}
+          <div className="min-h-screen flex flex-col mt-10 sm:mt-0">
+            <Navbar />
+            <SearchBar /> 
+
+            {/* Content in the middle */}
+            <main className="flex-1 flex justify-center items-left p-4 bg-white">
+              <div className="w-full max-w-5xl">{children}</div>
+            </main>
+
+            <Footer />
+          </div>
         </AuthContext.Provider>
       </body>
     </html>

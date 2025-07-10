@@ -43,9 +43,9 @@ export default function Login() {
     <div>
       <form
         onSubmit={handleSubmit}
-        className="bg-white p-8 rounded-lg shadow-md w-full max-w-md"
+        className="bg-white p-8 rounded-lg shadow-md w-full max-w-sm mx-auto"
       >
-        <h2 className="text-2xl font-bold mb-6 text-center">Login</h2>
+        <h2 className="text-2xl font-bold mb-6 text-center text-gray-500">Login</h2>
 
         {/* Email */}
         <div className="mb-4">
@@ -56,7 +56,7 @@ export default function Login() {
             value={formData.email}
             onChange={handleChange}
             required
-            className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring focus:ring-blue-300"
+            className="w-full px-4 py-2 border border-gray-300 text-gray-700 rounded-md focus:outline-none focus:ring focus:ring-blue-300"
             placeholder="you@example.com"
           />
         </div>
@@ -70,7 +70,7 @@ export default function Login() {
             value={formData.password}
             onChange={handleChange}
             required
-            className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring focus:ring-blue-300"
+            className="w-full px-4 py-2 border border-gray-300 text-gray-700 rounded-md focus:outline-none focus:ring focus:ring-blue-300"
             placeholder="********"
           />
         </div>

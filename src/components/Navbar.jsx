@@ -30,15 +30,21 @@ export default function Navbar() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between h-16 items-center">
             {/* Logo */}
-            <div className="text-xl font-bold text-gray-800">CollegeCloud</div>
+            <Link href="/" className="text-xl font-bold text-gray-800">CollegeCloud</Link>
 
             {/* Desktop Menu */}
             <div className="hidden md:flex gap-6">
               <Link href="/" className="text-gray-700 hover:text-blue-500">
                 Home
               </Link>
-              <Link href="/about" className="text-gray-700 hover:text-blue-500">
-                About
+              <Link href="/colleges" className="text-gray-700 hover:text-blue-500">
+                Colleges
+              </Link>
+              <Link href="/admission" className="text-gray-700 hover:text-blue-500">
+                Admission
+              </Link>
+              <Link href="/my-college" className="text-gray-700 hover:text-blue-500">
+                My College
               </Link>
               {user ? (
                 <button onClick={handleLogout} className="text-red-500">
@@ -82,11 +88,25 @@ export default function Navbar() {
               Home
             </Link>
             <Link
-              href="/about"
+              href="/colleges"
               className="text-gray-700 hover:text-blue-500"
               onClick={toggleMenu}
             >
-              About
+              Colleges
+            </Link>
+            <Link
+              href="/admission"
+              className="text-gray-700 hover:text-blue-500"
+              onClick={toggleMenu}
+            >
+              Admission
+            </Link>
+            <Link
+              href="/my-college"
+              className="text-gray-700 hover:text-blue-500"
+              onClick={toggleMenu}
+            >
+              My College
             </Link>
             <Link
               href="/login"

@@ -45,9 +45,9 @@ export default function Register() {
     <div>
       <form
         onSubmit={handleSubmit}
-        className="bg-white p-8 rounded-lg shadow-md w-full max-w-md"
+        className="bg-white p-8 rounded-lg shadow-md w-full max-w-sm mx-auto"
       >
-        <h2 className="text-2xl font-bold mb-6 text-center">Register</h2>
+        <h2 className="text-2xl font-bold mb-6 text-center text-gray-500">Register</h2>
 
         {/* Name */}
         <div className="mb-4">
@@ -58,7 +58,7 @@ export default function Register() {
             value={formData.name}
             onChange={handleChange}
             required
-            className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring focus:ring-blue-300"
+            className="w-full px-4 py-2 border border-gray-300 text-gray-700 rounded-md focus:outline-none focus:ring focus:ring-blue-300"
             placeholder="Your full name"
           />
         </div>
@@ -72,7 +72,7 @@ export default function Register() {
             value={formData.email}
             onChange={handleChange}
             required
-            className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring focus:ring-blue-300"
+            className="w-full px-4 py-2 border border-gray-300 text-gray-700 rounded-md focus:outline-none focus:ring focus:ring-blue-300"
             placeholder="you@example.com"
           />
         </div>
@@ -86,7 +86,7 @@ export default function Register() {
             value={formData.password}
             onChange={handleChange}
             required
-            className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring focus:ring-blue-300"
+            className="w-full px-4 py-2 border border-gray-300 text-gray-700 rounded-md focus:outline-none focus:ring focus:ring-blue-300"
             placeholder="********"
           />
         </div>
