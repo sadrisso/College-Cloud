@@ -1,10 +1,14 @@
-"use client"
+"use client";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import { Toaster } from "react-hot-toast";
 import { createContext, useEffect, useState } from "react";
-import { onAuthStateChanged } from "firebase/auth";
+import {
+  createUserWithEmailAndPassword,
+  onAuthStateChanged,
+  signInWithEmailAndPassword,
+} from "firebase/auth";
 import { auth } from "@/lib/firebase";
 
 export const AuthContext = createContext();
@@ -19,37 +23,55 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-
 export default function RootLayout({ children }) {
+  const [user, setUser] = useState(null);
 
-  const [user, setUser] = useState(null)
+  const createUser = (email, password) => {
+    return createUserWithEmailAndPassword(auth, email, password);
+  };
+
+  const loginUser = (email, password) => {
+    return signInWithEmailAndPassword(auth, email, password);
+  };
 
   useEffect(() => {
-    onAuthStateChanged(auth, (user) => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
-        console.log("User logged in -->", user)
-        setUser(user)
-      }else{
-        console.log("User is not logged in -->", user)
+        console.log("User here -->", user);
+        setUser(user);
+      } else {
+        console.log("User is not logged in -->", user);
+        setUser(null);
       }
-    })
-  }, [])
+    });
+
+    return () => unsubscribe();
+  }, []);
+
+  const authInfo = { user, createUser, loginUser };
 
   return (
     <html lang="en">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]`}
       >
-        <AuthContext.Provider value={user}>
-          <Toaster position="top-left" />
+        <AuthContext.Provider value={authInfo}>
+          <Toaster
+            position="top-center"
+            toastOptions={{
+              style: {
+                background: "#333",
+                color: "#fff",
+                fontSize: "14px",
+                padding: "12px 16px",
+                borderRadius: "8px",
+              },
+            }}
+          />
           <Navbar />
           {children}
         </AuthContext.Provider>
       </body>
     </html>
   );
-
-  
 }
-
-

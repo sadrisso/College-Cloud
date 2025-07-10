@@ -1,6 +1,5 @@
 "use client";
-import { auth } from "@/lib/firebase";
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import useAuth from "@/hooks/useAuth";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
@@ -8,6 +7,7 @@ import toast from "react-hot-toast";
 
 export default function Register() {
   const router = useRouter();
+  const { createUser } = useAuth();
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -26,15 +26,14 @@ export default function Register() {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    createUserWithEmailAndPassword(auth, formData?.email, formData?.password)
-      .then((userCredential) => {
-        const user = userCredential?.user;
-        toast.success("Registration Successfull")
-        router.push("/")
+    createUser(formData?.email, formData?.password)
+      .then((res) => {
+        console.log("Registration Successful", res?.user);
+        toast.success("Registration Successful");
+        router.push("/");
       })
       .catch((err) => {
-        const errorCode = err?.code;
-        const errorMessage = err?.message;
+        console.log("Register Error!!", err.message);
       });
   };
 

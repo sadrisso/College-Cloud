@@ -1,11 +1,19 @@
-"use client"
+"use client";
 import useAuth from "@/hooks/useAuth";
 import React from "react";
 
 export default function AboutPage() {
+  const authInfo = useAuth();
 
-  const { user } = useAuth();
+  if (!authInfo) {
+    return <p>context not available</p>;
+  }
 
-  console.log("User here --> ", user)
-  return <div></div>;
+  const { user } = authInfo;
+
+  return (
+    <div className="p-6">
+      {user ? <h1>Welcome {user.displayName}</h1> : <p>User not logged in.</p>}
+    </div>
+  );
 }

@@ -1,23 +1,44 @@
-'use client';
+"use client";
+import useAuth from "@/hooks/useAuth";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import React, { useState } from "react";
+import toast from "react-hot-toast";
 
 export default function Login() {
-
+  const router = useRouter();
+  const { loginUser, user } = useAuth();
   const [formData, setFormData] = useState({ email: "", password: "" });
 
   const handleChange = (e) => {
-    const {name, value} = e.target;
+    const { name, value } = e.target;
 
     setFormData((prev) => ({
       ...prev,
-      [name]: value
-    }))
+      [name]: value,
+    }));
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    if (user) {
+      toast.error("You're already logged in. Please log out first.");
+      return;
+    }
+
+    loginUser(formData?.email, formData?.password)
+      .then((res) => {
+        console.log("Successfully Logged In", res?.user);
+        toast.success("Successfully Logged In");
+        router.push("/");
+      })
+      .catch((err) => {
+        console.log("Login Error!!", err?.message);
+        toast.error(err?.message || "Login failed");
+      });
   };
+
   return (
     <div>
       <form
