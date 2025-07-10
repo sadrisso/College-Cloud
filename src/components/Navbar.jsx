@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import toast from "react-hot-toast";
+import SearchBar from "./SearchBar";
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(true);
@@ -126,6 +127,7 @@ export default function Navbar() {
           />
         )}
       </nav>
+      <SearchBar /> 
     </div>
   );
 }

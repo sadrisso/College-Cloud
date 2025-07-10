@@ -13,6 +13,7 @@ import {
 import { auth } from "@/lib/firebase";
 import Footer from "@/components/Footer";
 import SearchBar from "@/components/SearchBar";
+import CollegeGallery from "@/components/CollegeGallary";
 
 export const AuthContext = createContext();
 
@@ -77,7 +78,6 @@ export default function RootLayout({ children }) {
           />
           <div className="min-h-screen flex flex-col mt-10 sm:mt-0">
             <Navbar />
-            <SearchBar /> 
 
             {/* Content in the middle */}
             <main className="flex-1 flex justify-center items-left p-4 bg-white">

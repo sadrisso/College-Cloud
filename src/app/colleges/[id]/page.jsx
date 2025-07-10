@@ -1,6 +1,10 @@
 import axios from "axios";
 import React from "react";
 
+export const metadata = {
+  title: "College Details",
+};
+
 export const getSingleCollege = async (id) => {
   const res = await axios.get(`http://localhost:5000/colleges/${id}`);
   return res?.data;
@@ -10,7 +14,6 @@ export default async function CollegeDetailsPage({ params }) {
   const { id } = await params;
   const college = await getSingleCollege(id);
 
-  console.log(college);
   return (
     <section className="max-w-6xl mx-auto px-4 sm:px-8 py-12 text-gray-800">
       {/* Image and College Name */}
