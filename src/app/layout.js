@@ -8,6 +8,7 @@ import {
   createUserWithEmailAndPassword,
   onAuthStateChanged,
   signInWithEmailAndPassword,
+  signOut,
 } from "firebase/auth";
 import { auth } from "@/lib/firebase";
 
@@ -34,6 +35,10 @@ export default function RootLayout({ children }) {
     return signInWithEmailAndPassword(auth, email, password);
   };
 
+  const logOut = () => {
+    return signOut(auth);
+  };
+
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
@@ -48,7 +53,7 @@ export default function RootLayout({ children }) {
     return () => unsubscribe();
   }, []);
 
-  const authInfo = { user, createUser, loginUser };
+  const authInfo = { user, createUser, loginUser, logOut };
 
   return (
     <html lang="en">

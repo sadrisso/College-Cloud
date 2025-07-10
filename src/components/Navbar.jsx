@@ -1,12 +1,28 @@
-'use client'
+"use client";
+import useAuth from "@/hooks/useAuth";
 import { Menu, X } from "lucide-react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import React, { useState } from "react";
+import toast from "react-hot-toast";
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(true);
+  const { user, logOut } = useAuth();
+  const router = useRouter();
 
   const toggleMenu = () => setIsOpen(!isOpen);
+
+  const handleLogout = () => {
+    logOut()
+      .then(() => {
+        toast.success("Logged Out Successful");
+        router.push("/login");
+      })
+      .catch((err) => {
+        toast.error(err?.message || "Logout Error!!");
+      });
+  };
 
   return (
     <div>
@@ -24,9 +40,18 @@ export default function Navbar() {
               <Link href="/about" className="text-gray-700 hover:text-blue-500">
                 About
               </Link>
-              <Link href="/login" className="text-gray-700 hover:text-blue-500">
-                Login
-              </Link>
+              {user ? (
+                <button onClick={handleLogout} className="text-red-500">
+                  Logout
+                </button>
+              ) : (
+                <Link
+                  href="/login"
+                  className="text-gray-700 hover:text-blue-500"
+                >
+                  Login
+                </Link>
+              )}
             </div>
 
             {/* Mobile Toggle Button */}

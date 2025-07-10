@@ -1,5 +1,6 @@
 "use client";
 import useAuth from "@/hooks/useAuth";
+import { updateProfile } from "firebase/auth";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
@@ -28,6 +29,9 @@ export default function Register() {
 
     createUser(formData?.email, formData?.password)
       .then((res) => {
+        updateProfile(res?.user, { displayName: formData?.name })
+          .then(() => console.log("Profile updated"))
+          .catch((err) => console.log("Error occurred", err));
         console.log("Registration Successful", res?.user);
         toast.success("Registration Successful");
         router.push("/");
