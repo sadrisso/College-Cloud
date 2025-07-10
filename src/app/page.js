@@ -1,6 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
 import CollegeGallery from "@/components/CollegeGallary";
+import ResearchPapers from "@/components/ResearchPapers";
 import axios from "axios";
 import Link from "next/link";
 import { useEffect, useState } from "react";
@@ -100,6 +101,10 @@ export default function Home() {
       </div>
       <section className="mt-10">
         <CollegeGallery />
+      </section>
+
+      <section className="mt-10">
+        <ResearchPapers />
       </section>
     </>
   );
