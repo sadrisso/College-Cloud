@@ -1,13 +1,18 @@
-'use client'
-import { Link } from "lucide-react";
+'use client';
+import Link from "next/link";
 import React, { useState } from "react";
 
 export default function Login() {
 
-  const [formData, setFormData] = useState({ name: "", email: "" });
+  const [formData, setFormData] = useState({ email: "", password: "" });
 
   const handleChange = (e) => {
-    console.log(e.target);
+    const {name, value} = e.target;
+
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value
+    }))
   };
 
   const handleSubmit = (e) => {
@@ -58,9 +63,9 @@ export default function Login() {
 
         <p className="mt-4 text-center text-sm text-gray-600">
           Don't have an account?{" "}
-          <a href="/register" className="text-blue-600 hover:underline">
+          <Link href="/register" className="text-blue-600 hover:underline">
             Register
-          </a>
+          </Link>
         </p>
       </form>
     </div>

@@ -1,9 +1,13 @@
-'use client'
+"use client";
+import { auth } from "@/lib/firebase";
+import { createUserWithEmailAndPassword } from "firebase/auth";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import React, { useState } from "react";
+import toast from "react-hot-toast";
 
 export default function Register() {
-
+  const router = useRouter();
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -11,11 +15,27 @@ export default function Register() {
   });
 
   const handleChange = (e) => {
-    console.log(e.target);
+    const { name, value } = e.target;
+
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    createUserWithEmailAndPassword(auth, formData?.email, formData?.password)
+      .then((userCredential) => {
+        const user = userCredential?.user;
+        toast.success("Registration Successfull")
+        router.push("/")
+      })
+      .catch((err) => {
+        const errorCode = err?.code;
+        const errorMessage = err?.message;
+      });
   };
 
   return (
@@ -76,9 +96,9 @@ export default function Register() {
         </button>
         <p className="mt-4 text-center text-sm text-gray-600">
           Already have an account?{" "}
-          <a href="/login" className="text-blue-600 hover:underline">
+          <Link href="/login" className="text-blue-600 hover:underline">
             Login
-          </a>
+          </Link>
         </p>
       </form>
     </div>

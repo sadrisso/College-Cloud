@@ -14,16 +14,16 @@ export default function Navbar() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between h-16 items-center">
             {/* Logo */}
-            <div className="text-xl font-bold text-gray-800">MyApp</div>
+            <div className="text-xl font-bold text-gray-800">CollegeCloud</div>
 
             {/* Desktop Menu */}
             <div className="hidden md:flex gap-6">
               <Link href="/" className="text-gray-700 hover:text-blue-500">
                 Home
               </Link>
-              <a href="#" className="text-gray-700 hover:text-blue-500">
+              <Link href="/about" className="text-gray-700 hover:text-blue-500">
                 About
-              </a>
+              </Link>
               <Link href="/login" className="text-gray-700 hover:text-blue-500">
                 Login
               </Link>
@@ -49,20 +49,20 @@ export default function Navbar() {
           } md:hidden`}
         >
           <div className="p-5 flex flex-col gap-4">
-            <a
-              href="#"
+            <Link
+              href="/"
               className="text-gray-700 hover:text-blue-500"
               onClick={toggleMenu}
             >
               Home
-            </a>
-            <a
-              href="#"
+            </Link>
+            <Link
+              href="/about"
               className="text-gray-700 hover:text-blue-500"
               onClick={toggleMenu}
             >
               About
-            </a>
+            </Link>
             <Link
               href="/login"
               className="text-gray-700 hover:text-blue-500"
