@@ -1,9 +1,10 @@
 import axios from "axios";
+import Link from "next/link";
 import React from "react";
 
 export const metadata = {
   title: "All Colleges",
-}
+};
 
 const getColleges = async () => {
   const res = await axios.get("http://localhost:5000/colleges");
@@ -41,9 +42,13 @@ export default async function CollegesPage() {
               <p className="text-yellow-500 text-sm flex items-center gap-1">
                 ⭐ {college.ranking} / 10
               </p>
-              <button className="mt-3 py-2 px-4 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition w-max">
-                View Details
-              </button>
+              <Link
+                href={`/colleges/${college?._id}`}
+                rel="noopener noreferrer"
+                className="text-sm mt-auto w-fit bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition"
+              >
+                Details
+              </Link>
             </div>
           </div>
         ))}

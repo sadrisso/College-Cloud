@@ -1,6 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
 import axios from "axios";
+import Link from "next/link";
 import { useEffect, useState } from "react";
 
 const getCollegeData = async () => {
@@ -8,10 +9,6 @@ const getCollegeData = async () => {
   return res?.data;
 };
 
-function truncate(text, length = 100) {
-  if (text.length <= length) return text;
-  return text.slice(0, length) + "...";
-}
 
 export default function Home() {
   const [colleges, setColleges] = useState([]);
@@ -24,72 +21,81 @@ export default function Home() {
   }, []);
 
   return (
-    <section className="max-w-7xl mx-auto px-6 py-12">
-      <h2 className="text-3xl font-bold mb-10 text-center text-gray-900">
-        Featured Colleges
-      </h2>
-
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-        {colleges.map((college) => (
-          <div
-            key={college.name}
-            className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-shadow duration-300 flex flex-col"
-          >
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 px-4 sm:px-8 py-12 bg-gray-50">
+      {colleges.map((college) => (
+        <div
+          key={college.name}
+          className="flex flex-col bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition duration-300"
+        >
+          {/* Image */}
+          <div className="bg-gray-100 flex justify-center items-center p-6 h-48 sm:h-56">
             <img
               src={college.image}
               alt={college.name}
-              className="h-48 w-full object-cover bg-gray-100 p-6"
+              className="object-contain h-full"
             />
+          </div>
 
-            <div className="p-6 flex flex-col flex-grow">
-              <h3 className="text-xl font-semibold text-gray-800 mb-2">
-                {college.name}
-              </h3>
+          {/* Content */}
+          <div className="p-6 flex flex-col justify-between h-full">
+            <h2 className="text-xl sm:text-2xl font-semibold text-gray-800 mb-2">
+              {college.name}
+            </h2>
 
-              <p className="text-sm text-gray-600 mb-3">
-                <strong>Admission:</strong>{" "}
-                {`Fall: ${college.admissionDates.fall}, Spring: ${
-                  college.admissionDates.spring || "N/A"
-                }`}
-              </p>
+            {/* Admission Dates */}
+            <p className="text-sm text-gray-600 mb-2">
+              <span className="font-medium text-gray-700">Admission:</span> Fall{" "}
+              {college.admissionDates.fall} | Spring{" "}
+              {college.admissionDates.spring || "N/A"}
+            </p>
 
-              <div className="mb-3">
-                <strong className="text-gray-700">Events:</strong>
-                <div className="flex flex-wrap gap-2 mt-1">
-                  {college.events.slice(0, 4).map((event, i) => (
-                    <span
-                      key={i}
-                      className="bg-blue-100 text-blue-800 text-xs font-semibold px-2 py-1 rounded-full"
-                    >
-                      {event}
-                    </span>
-                  ))}
-                </div>
-              </div>
-
-              <p className="text-gray-700 flex-grow mb-3">
-                <strong>Research History: </strong>
-                {truncate(college.researchHistory, 110)}
-              </p>
-
-              <div>
-                <strong className="text-gray-700">Sports:</strong>
-                <div className="flex flex-wrap gap-3 mt-1 text-sm text-gray-600">
-                  {college.sports.map((sport, i) => (
-                    <span
-                      key={i}
-                      className="bg-green-100 px-2 py-1 rounded-md"
-                      title={sport}
-                    >
-                      {sport}
-                    </span>
-                  ))}
-                </div>
+            {/* Events */}
+            <div className="mb-2">
+              <p className="font-medium text-gray-700">Events:</p>
+              <div className="flex flex-wrap gap-2 mt-1">
+                {college.events.slice(0, 3).map((event, i) => (
+                  <span
+                    key={i}
+                    className="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full"
+                  >
+                    {event}
+                  </span>
+                ))}
               </div>
             </div>
+
+            {/* Research */}
+            <p className="text-sm text-gray-700 mb-2">
+              <span className="font-medium">Research:</span>{" "}
+              {college.researchHistory.slice(0, 80)}...
+            </p>
+
+            {/* Sports */}
+            <div className="mb-4">
+              <p className="font-medium text-gray-700">Sports:</p>
+              <div className="flex flex-wrap gap-2 mt-1">
+                {college.sports.map((sport, i) => (
+                  <span
+                    key={i}
+                    className="text-xs bg-green-100 text-green-800 px-2 py-1 rounded"
+                  >
+                    {sport}
+                  </span>
+                ))}
+              </div>
+            </div>
+
+            {/* Button or Link (Optional) */}
+            <Link
+              href={`/colleges/${college?._id}`}
+              rel="noopener noreferrer"
+              className="text-sm mt-auto w-fit bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition"
+            >
+              Details
+            </Link>
           </div>
-        ))}
-      </div>
-    </section>
+        </div>
+      ))}
+    </div>
   );
 }
