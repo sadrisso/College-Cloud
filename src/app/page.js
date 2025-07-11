@@ -1,6 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
 import CollegeGallery from "@/components/CollegeGallary";
+import CollegeReviews from "@/components/CollegeReviews";
 import ResearchPapers from "@/components/ResearchPapers";
 import axios from "axios";
 import Link from "next/link";
@@ -105,6 +106,10 @@ export default function Home() {
 
       <section className="mt-10">
         <ResearchPapers />
+      </section>
+
+      <section className="mt-10">
+        <CollegeReviews />
       </section>
     </>
   );
