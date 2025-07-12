@@ -2,28 +2,19 @@
 import useAuth from "@/hooks/useAuth";
 import { Menu, X } from "lucide-react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import React, { useState } from "react";
-import toast from "react-hot-toast";
-import SearchBar from "./SearchBar";
+
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(true);
-  const { user, logOut } = useAuth();
-  const router = useRouter();
+   const [isHovered, setIsHovered] = useState(false);
+  const pathName = usePathname();
+  const { user } = useAuth();
+  
 
   const toggleMenu = () => setIsOpen(!isOpen);
-
-  const handleLogout = () => {
-    logOut()
-      .then(() => {
-        toast.success("Logged Out Successful");
-        router.push("/login");
-      })
-      .catch((err) => {
-        toast.error(err?.message || "Logout Error!!");
-      });
-  };
+  const isActive = (path) => pathName === path;
 
   return (
     <div>
@@ -31,30 +22,91 @@ export default function Navbar() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between h-16 items-center">
             {/* Logo */}
-            <Link href="/" className="text-xl font-bold text-gray-800">CollegeCloud</Link>
+            <Link href="/" className="text-xl font-bold text-gray-800">
+              CollegeCloud
+            </Link>
 
             {/* Desktop Menu */}
             <div className="hidden md:flex gap-6">
-              <Link href="/" className="text-gray-700 hover:text-blue-500">
+              <Link
+                href="/"
+                className={`hover:text-blue-500 ${
+                  isActive("/")
+                    ? "text-blue-600 font-semibold"
+                    : "text-gray-700"
+                }`}
+              >
                 Home
               </Link>
-              <Link href="/colleges" className="text-gray-700 hover:text-blue-500">
+              <Link
+                href="/colleges"
+                className={`hover:text-blue-500 ${
+                  isActive("/colleges")
+                    ? "text-blue-600 font-semibold"
+                    : "text-gray-700"
+                }`}
+              >
                 Colleges
               </Link>
-              <Link href="/admission" className="text-gray-700 hover:text-blue-500">
+              <Link
+                href="/admission"
+                className={`hover:text-blue-500 ${
+                  isActive("/admission")
+                    ? "text-blue-600 font-semibold"
+                    : "text-gray-700"
+                }`}
+              >
                 Admission
               </Link>
-              <Link href="/my-college" className="text-gray-700 hover:text-blue-500">
+              <Link
+                href="/my-college"
+                className={`hover:text-blue-500 ${
+                  isActive("/my-college")
+                    ? "text-blue-600 font-semibold"
+                    : "text-gray-700"
+                }`}
+              >
                 My College
               </Link>
               {user ? (
-                <button onClick={handleLogout} className="text-red-500">
-                  Logout
-                </button>
+                <div
+                  className="relative group"
+                  onMouseEnter={() => setIsHovered(true)}
+                  onMouseLeave={() => setIsHovered(false)}
+                >
+                  <Link
+                    href="/profile"
+                    className="text-blue-600 font-medium hover:underline flex items-center gap-2"
+                  >
+                    👤 Profile
+                  </Link>
+
+                  {/* Tooltip */}
+                  <div
+                    className={`absolute left-1/2 transform -translate-x-1/2 mt-2 z-50 w-64 p-3 bg-white text-sm rounded shadow-lg border border-gray-200 transition-opacity duration-300 ${
+                      isHovered ? "opacity-100 visible" : "opacity-0 invisible"
+                    }`}
+                  >
+                    <p>
+                      <span className="font-semibold text-gray-700">Name:</span>{" "}
+                      {user.displayName || "N/A"}
+                    </p>
+                    <p>
+                      <span className="font-semibold text-gray-700">
+                        Email:
+                      </span>{" "}
+                      {user.email || "N/A"}
+                    </p>
+                  </div>
+                </div>
               ) : (
                 <Link
                   href="/login"
-                  className="text-gray-700 hover:text-blue-500"
+                  className={`hover:text-blue-500 ${
+                    isActive("/login")
+                      ? "text-blue-600 font-semibold"
+                      : "text-gray-700"
+                  }`}
                 >
                   Login
                 </Link>
@@ -80,42 +132,63 @@ export default function Navbar() {
             isOpen ? "translate-x-0" : "-translate-x-full"
           } md:hidden`}
         >
-          <div className="p-5 flex flex-col gap-4">
+          <div className="flex flex-col gap-4 p-5 text-gray-700">
             <Link
               href="/"
-              className="text-gray-700 hover:text-blue-500"
               onClick={toggleMenu}
             >
               Home
             </Link>
             <Link
               href="/colleges"
-              className="text-gray-700 hover:text-blue-500"
               onClick={toggleMenu}
+              className={`hover:text-blue-500 ${
+                isActive("/colleges")
+                  ? "text-blue-600 font-semibold"
+                  : "text-gray-700"
+              }`}
             >
               Colleges
             </Link>
             <Link
               href="/admission"
-              className="text-gray-700 hover:text-blue-500"
               onClick={toggleMenu}
+              className={`hover:text-blue-500 ${
+                isActive("/admisson")
+                  ? "text-blue-600 font-semibold"
+                  : "text-gray-700"
+              }`}
             >
               Admission
             </Link>
             <Link
               href="/my-college"
-              className="text-gray-700 hover:text-blue-500"
               onClick={toggleMenu}
+              className={`hover:text-blue-500 ${
+                isActive("/my-college")
+                  ? "text-blue-600 font-semibold"
+                  : "text-gray-700"
+              }`}
             >
               My College
             </Link>
-            <Link
-              href="/login"
-              className="text-gray-700 hover:text-blue-500"
-              onClick={toggleMenu}
-            >
-              Login
-            </Link>
+            {user ? (
+              <Link onClick={toggleMenu} className="text-black" href="/profile">
+                {user?.displayName || "Profile"}
+              </Link>
+            ) : (
+              <Link
+                href="/login"
+                onClick={toggleMenu}
+                className={`hover:text-blue-500 ${
+                  isActive("/login")
+                    ? "text-blue-600 font-semibold"
+                    : "text-gray-700"
+                }`}
+              >
+                Login
+              </Link>
+            )}
           </div>
         </div>
 
@@ -127,7 +200,7 @@ export default function Navbar() {
           />
         )}
       </nav>
-      <SearchBar /> 
+      {/* <SearchBar />  */}
     </div>
   );
 }

@@ -5,10 +5,9 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import toast from "react-hot-toast";
 
-const AdmissionForm = ({ collegeId }) => {
+const AdmissionForm = ({ collegeId, collegeImage, collegeName }) => {
   const router = useRouter();
   const { user } = useAuth();
-  console.log("User email:", user?.email);
   const [formData, setFormData] = useState({
     candidateName: "",
     subject: "",
@@ -32,6 +31,8 @@ const AdmissionForm = ({ collegeId }) => {
     e.preventDefault();
 
     const submissionData = new FormData();
+    submissionData.append("collegeImage", collegeImage);
+    submissionData.append("collegeName", collegeName);
     submissionData.append("collegeId", collegeId);
     submissionData.append("candidateName", formData.candidateName);
     submissionData.append("subject", formData.subject);

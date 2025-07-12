@@ -1,24 +1,21 @@
-/* eslint-disable @next/next/no-img-element */
-"use client";
+ "use client";
 import CollegeGallery from "@/components/CollegeGallary";
 import CollegeReviews from "@/components/CollegeReviews";
 import ResearchPapers from "@/components/ResearchPapers";
-import useAuth from "@/hooks/useAuth";
 import axios from "axios";
+import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
-
 export default function Home() {
-  const { user } = useAuth();
+  const [search, serSearch] = useState("");
   const [colleges, setColleges] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
-      if (!user?.email) return;
       try {
         const res = await axios.get("http://localhost:5000/colleges", {
-          params: { email: user.email},
+          params: { search },
         });
 
         const firstThree = res.data.slice(0, 3);
@@ -28,10 +25,20 @@ export default function Home() {
       }
     };
     fetchData();
-  }, [user]);
+  }, [search]);
+
 
   return (
     <>
+      <div className="bg-white w-full px-2 sm:px-4 py-2 sm:py-4 border">
+          <input
+            type="text"
+            placeholder="Search colleges..."
+            value={search}
+            onChange={(e) => serSearch(e.target.value)}
+            className="w-full sm:flex-1 px-4 py-2 border border-gray-300 text-gray-500 rounded-md focus:outline-none focus:ring focus:ring-blue-400"
+          />
+      </div>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 px-4 sm:px-8 py-12 bg-gray-50">
         {colleges.map((college) => (
           <div
@@ -40,7 +47,9 @@ export default function Home() {
           >
             {/* Image */}
             <div className="bg-gray-100 flex justify-center items-center p-6 h-48 sm:h-56">
-              <img
+              <Image
+              width={400}
+              height={400}
                 src={college.image}
                 alt={college.name}
                 className="object-contain h-full"
