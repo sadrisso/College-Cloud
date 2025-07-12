@@ -2,7 +2,7 @@ import AdmissionForm from "@/components/AdmissionForm";
 import React from "react";
 
 export default async function AdmissionSubmit({ params }) {
-  const { id } = params;
+  const { id } = await params;
 
   return (
     <div className="max-w-3xl mx-auto p-6">

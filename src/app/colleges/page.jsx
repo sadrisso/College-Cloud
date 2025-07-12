@@ -7,8 +7,13 @@ export const metadata = {
 };
 
 const getColleges = async () => {
-  const res = await axios.get("http://localhost:5000/colleges");
-  return res?.data;
+  try {
+    const res = await axios.get("http://localhost:5000/colleges");
+    return res.data;
+  } catch (error) {
+    console.error("Axios error:", error.response?.data || error.message);
+    throw error;
+  }
 };
 
 export default async function CollegesPage() {

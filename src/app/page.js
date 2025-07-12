@@ -3,24 +3,32 @@
 import CollegeGallery from "@/components/CollegeGallary";
 import CollegeReviews from "@/components/CollegeReviews";
 import ResearchPapers from "@/components/ResearchPapers";
+import useAuth from "@/hooks/useAuth";
 import axios from "axios";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
-const getCollegeData = async () => {
-  const res = await axios.get("http://localhost:5000/colleges");
-  return res?.data;
-};
 
 export default function Home() {
+  const { user } = useAuth();
   const [colleges, setColleges] = useState([]);
 
   useEffect(() => {
-    getCollegeData().then((res) => {
-      const firstThree = res.slice(0, 3);
-      setColleges(firstThree);
-    });
-  }, []);
+    const fetchData = async () => {
+      if (!user?.email) return;
+      try {
+        const res = await axios.get("http://localhost:5000/colleges", {
+          params: { email: user.email},
+        });
+
+        const firstThree = res.data.slice(0, 3);
+        setColleges(firstThree);
+      } catch (error) {
+        console.error("Axios error:", error.response?.data || error.message);
+      }
+    };
+    fetchData();
+  }, [user]);
 
   return (
     <>

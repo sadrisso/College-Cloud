@@ -7,8 +7,13 @@ export const metadata = {
 };
 
 const getColleges = async () => {
-  const res = await axios.get("http://localhost:5000/colleges");
-  return res?.data;
+  try {
+    const res = await axios.get("http://localhost:5000/colleges");
+    return res.data;
+  } catch (error) {
+    console.error("Axios error:", error.response?.data || error.message);
+    throw error;
+  }
 };
 
 export default async function AdmissionPage() {
@@ -24,9 +29,8 @@ export default async function AdmissionPage() {
         <ul className="space-y-4">
           {colleges && colleges.length > 0 ? (
             colleges.map((college) => (
-              <Link href={`/admission/${college?._id}`}>
+              <Link key={college._id} href={`/admission/${college?._id}`}>
                 <li
-                  key={college._id}
                   className="p-4 border rounded cursor-pointer hover:bg-blue-50 transition my-2"
                   // You can add onClick here to handle selection later
                 >

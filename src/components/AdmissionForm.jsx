@@ -1,4 +1,5 @@
 "use client";
+import useAuth from "@/hooks/useAuth";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -6,6 +7,8 @@ import toast from "react-hot-toast";
 
 const AdmissionForm = ({ collegeId }) => {
   const router = useRouter();
+  const { user } = useAuth();
+  console.log("User email:", user?.email);
   const [formData, setFormData] = useState({
     candidateName: "",
     subject: "",
@@ -37,6 +40,7 @@ const AdmissionForm = ({ collegeId }) => {
     submissionData.append("address", formData.address);
     submissionData.append("dob", formData.dob);
     submissionData.append("image", formData.image);
+    submissionData.append("userEmail", user?.email);
 
     try {
       const res = await axios.post(
@@ -51,7 +55,7 @@ const AdmissionForm = ({ collegeId }) => {
 
       if (res.status === 200) {
         toast.success("Admission submitted successfully!");
-        router.push("/my-college")
+        router.push("/my-college");
         // optionally reset form
       } else {
         toast.error("Failed to submit. Please try again.");

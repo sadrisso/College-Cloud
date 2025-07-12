@@ -1,11 +1,13 @@
 import React, { useState } from "react";
 
 export default function SearchBar() {
-  const [query, setQuery] = useState("");
+  const [search, serSearch] = useState("");
 
   const handleSubmit = (e) => {
     e.preventDefault();
   }
+
+  
   return (
     <div className="bg-white w-full px-2 sm:px-4 py-2 sm:py-4 border">
       <form
@@ -15,8 +17,8 @@ export default function SearchBar() {
         <input
           type="text"
           placeholder="Search colleges..."
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
+          value={search}
+          onChange={(e) => serSearch(e.target.value)}
           className="w-full sm:flex-1 px-4 py-2 border border-gray-300 text-gray-500 rounded-md focus:outline-none focus:ring focus:ring-blue-400"
         />
         <button
