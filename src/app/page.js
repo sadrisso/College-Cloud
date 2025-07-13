@@ -1,4 +1,4 @@
- "use client";
+"use client";
 import CollegeGallery from "@/components/CollegeGallary";
 import CollegeReviews from "@/components/CollegeReviews";
 import ResearchPapers from "@/components/ResearchPapers";
@@ -9,6 +9,7 @@ import { useEffect, useState } from "react";
 
 export default function Home() {
   const [search, serSearch] = useState("");
+  const [isLoading, setIsLoading] = useState(true);
   const [colleges, setColleges] = useState([]);
 
   useEffect(() => {
@@ -22,22 +23,31 @@ export default function Home() {
         setColleges(firstThree);
       } catch (error) {
         console.error("Axios error:", error.response?.data || error.message);
+      } finally {
+        setIsLoading(false);
       }
     };
     fetchData();
   }, [search]);
 
+  if (isLoading) {
+    return (
+      <div className="flex justify-center items-center min-h-[50vh]">
+        <div className="text-xl font-semibold text-gray-700">Loading...</div>
+      </div>
+    );
+  }
 
   return (
     <>
       <div className="bg-white w-full px-2 sm:px-4 py-2 sm:py-4 border">
-          <input
-            type="text"
-            placeholder="Search colleges..."
-            value={search}
-            onChange={(e) => serSearch(e.target.value)}
-            className="w-full sm:flex-1 px-4 py-2 border border-gray-300 text-gray-500 rounded-md focus:outline-none focus:ring focus:ring-blue-400"
-          />
+        <input
+          type="text"
+          placeholder="Search colleges..."
+          value={search}
+          onChange={(e) => serSearch(e.target.value)}
+          className="w-full sm:flex-1 px-4 py-2 border border-gray-300 text-gray-500 rounded-md focus:outline-none focus:ring focus:ring-blue-400"
+        />
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 px-4 sm:px-8 py-12 bg-gray-50">
         {colleges.map((college) => (
@@ -48,8 +58,8 @@ export default function Home() {
             {/* Image */}
             <div className="bg-gray-100 flex justify-center items-center p-6 h-48 sm:h-56">
               <Image
-              width={400}
-              height={400}
+                width={400}
+                height={400}
                 src={college.image}
                 alt={college.name}
                 className="object-contain h-full"

@@ -6,9 +6,11 @@ import toast from "react-hot-toast";
 
 export default function MyCollegePage() {
   const { user } = useAuth();
+  const [isLoading, setIsLoading] = useState(true);
   const [admission, setAdmission] = useState([]);
   const [reviewText, setReviewText] = useState("");
   const [rating, setRating] = useState("");
+  const [collegeName, setCollegeName] = useState("");
 
   const handleReviewSubmit = async (e) => {
     e.preventDefault();
@@ -18,6 +20,7 @@ export default function MyCollegePage() {
       reviewerEmail: user?.email,
       rating: parseInt(rating),
       message: reviewText,
+      college: collegeName,
     };
 
     try {
@@ -26,6 +29,7 @@ export default function MyCollegePage() {
         toast.success("Review added successfully!");
         setReviewText("");
         setRating("");
+        setCollegeName("");
       } else {
         toast.error("Something went wrong!");
       }
@@ -47,11 +51,21 @@ export default function MyCollegePage() {
         console.log(`Admission data for ${user.email}:`, res.data);
       } catch (error) {
         console.error("Axios error:", error.response?.data || error.message);
+      } finally {
+        setIsLoading(false);
       }
     };
 
     fetchAdmission();
   }, [user?.email]);
+
+  if (isLoading) {
+    return (
+      <div className="flex justify-center items-center min-h-[50vh]">
+        <div className="text-xl font-semibold text-gray-700">Loading...</div>
+      </div>
+    );
+  }
 
   return (
     <>
@@ -120,7 +134,6 @@ export default function MyCollegePage() {
               </div>
             ))}
           </div>
-          
           //review
           <div className="mt-6 border-t pt-4">
             <h2 className="text-lg font-semibold text-gray-800 mb-2">
@@ -130,6 +143,22 @@ export default function MyCollegePage() {
               onSubmit={handleReviewSubmit}
               className="space-y-3 text-gray-600"
             >
+              {/* College Name Field */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700">
+                  College Name
+                </label>
+                <input
+                  type="text"
+                  value={collegeName}
+                  onChange={(e) => setCollegeName(e.target.value)}
+                  required
+                  className="w-full mt-1 border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring focus:ring-blue-400"
+                  placeholder="Enter college name"
+                />
+              </div>
+
+              {/* Rating Field */}
               <div>
                 <label className="block text-sm font-medium text-gray-700">
                   Rating (1–5)
@@ -149,6 +178,7 @@ export default function MyCollegePage() {
                 </select>
               </div>
 
+              {/* Review Textarea */}
               <div>
                 <label className="block text-sm font-medium text-gray-700">
                   Your Review

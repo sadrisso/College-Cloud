@@ -12,8 +12,6 @@ import {
 } from "firebase/auth";
 import { auth } from "@/lib/firebase";
 import Footer from "@/components/Footer";
-import SearchBar from "@/components/SearchBar";
-import CollegeGallery from "@/components/CollegeGallary";
 
 export const AuthContext = createContext();
 

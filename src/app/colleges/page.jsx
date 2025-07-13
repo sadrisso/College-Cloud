@@ -18,7 +18,6 @@ const getColleges = async () => {
 
 export default async function CollegesPage() {
   const colleges = await getColleges();
-  console.log("All colleges: ", colleges);
 
   return (
     <div className="text-black">
