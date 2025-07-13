@@ -31,10 +31,30 @@ A modern, high-performance web application built with **Next.js 15**, **React 19
 
 ---
 
+## 📁 Project Structure
+
+college-cloud/
+├── college-cloud-client/ # Frontend (Next.js)
+│ ├── app/
+│ ├── components/
+│ ├── hooks/
+│ ├── public/
+│ ├── styles/
+│ ├── .env.local
+│ └── ...
+├── college-cloud-server/ # Backend (Express)
+│ ├── routes/
+│ ├── controllers/
+│ ├── uploads/
+│ ├── index.js
+│ ├── .env
+│ └── ...
+└── README.md
+
 ## 📦 Getting Started
 
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/sadrisso/College-Cloud.git
-cd your-repo-name
+git clone https://github.com/sadrisso/College-Cloud-Client.git
+cd college-cloud-client
