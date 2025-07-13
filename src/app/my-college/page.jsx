@@ -134,7 +134,7 @@ export default function MyCollegePage() {
               </div>
             ))}
           </div>
-          //review
+
           <div className="mt-6 border-t pt-4">
             <h2 className="text-lg font-semibold text-gray-800 mb-2">
               Add Your Review
